@@ -2,15 +2,15 @@
   "name": "pub-name-generator",
   "version": "1.0.0",
   "description": "Generates random pub names.",
-  "main": "built.js",
+  "main": "main.js",
   "dependencies": {},
   "devDependencies": {
     "grunt": "^1.0.2",
     "grunt-contrib-cssmin": "^2.2.1",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "^0.5.1",
-    "grunt-contrib-concat": "^0.5.0",
-    "grunt-contrib-watch": "^1.0.1"
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-watch": "^1.0.1",
+    "uglify": "^0.1.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

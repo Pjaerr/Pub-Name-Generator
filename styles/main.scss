@@ -1,5 +1,30 @@
-body, html
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
+
+html, body
 {
     height: 100%;
     margin: 0;
+    background: #32ff7e;
+    overflow: hidden;
+    color: #2F3640;
+    font-family: 'Playfair Display', serif;
+}
+
+
+.content
+{
+    font-size: 5vw;
+    min-height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.and
+{
+    font-weight:normal;
+    font-style: italic;
 }

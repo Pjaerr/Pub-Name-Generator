@@ -24,23 +24,11 @@ module.exports = function (grunt)
                         }
                 },
 
-            concat: {
-                options:
-                    {
-                        separator: '\n/*next file*/\n\n'  //this will be put between conc. files
-                    },
-                dist:
-                    {
-                        src: ['scripts/main.js'],
-                        dest: 'scripts/built.js'
-                    }
-            },
-
             uglify: {
                 build: {
                     files:
                         {
-                            'scripts/built.min.js': ['scripts/built.js']
+                            'scripts/main.min.js': ['scripts/main.js']
                         }
                 }
             },
@@ -57,19 +45,9 @@ module.exports = function (grunt)
                                 }
                         },
 
-                    concat:
-                        {
-                            files: ['scripts/main.js'],
-                            tasks: ['concat'],
-                            options:
-                                {
-                                    livereload: true
-                                }
-                        },
-
                     uglify:
                         {
-                            files: 'scripts/built.js',
+                            files: 'scripts/main.js',
                             tasks: ['uglify'],
                             options:
                                 {
@@ -91,11 +69,9 @@ module.exports = function (grunt)
 
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify-es');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('css', ['sass', 'cssmin']);
-    grunt.registerTask('js', ['concat', 'uglify']);
 };
