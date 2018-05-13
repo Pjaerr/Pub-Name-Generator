@@ -44,7 +44,6 @@ module.exports = function (grunt)
                                     livereload: true
                                 }
                         },
-
                     uglify:
                         {
                             files: 'scripts/main.js',
@@ -54,7 +53,6 @@ module.exports = function (grunt)
                                     livereload: true
                                 }
                         },
-
                     all:
                         {
                             files: ['**/*.html'],
