@@ -6,7 +6,13 @@
 $textColour: #2F3640;
 $defaultBackgroundColour: #32ff7e;
 $fontFamily: 'Playfair Display', serif;
-$fontSize: 4vw;
+$fontSize: 5vw;
+
+//Partial .SCSS Imports
+@import 'content';
+@import 'loading';
+@import 'toast';
+
 
 html, body
 {
@@ -20,52 +26,11 @@ html, body
     background: $defaultBackgroundColour;
     color: $textColour;
     font-family: $fontFamily;
-
 }
 
 
-.content
-{
-    /*Fill the document.*/
-    min-height: 100%;
-
-    font-size: $fontSize;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
 
-    font-weight: bold;
-    text-align: center;
-
-    /*Disable text selection. (Avoids highlighting words when clicking for a new generation)*/
-    -webkit-user-select: none; /* Safari */        
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none; /* Standard */
-
-    /*Explicity set width to fix flexbox word wrapping on IE.*/
-    width: 100%;
-
-    h1
-    {
-        /*Explicity set width to fix flexbox word wrapping on IE.*/
-        width: 95%;
-        max-width: 95%;
-        overflow-wrap: break-word;
-    }
-}
-
-.and
-{
-    font-style: italic;
-    font-weight: lighter;
-}
 
 
-#firstWord, #secondWord
-{
-    text-decoration: underline;
-}
+

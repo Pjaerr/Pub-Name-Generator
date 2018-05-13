@@ -1,19 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Playfair+Display");
-html, body {
-  /*Fill the screen and remove default padding.*/
-  height: 100%;
-  margin: 0;
-  /*Hide Scrollbars*/
-  overflow: hidden;
-  background: #32ff7e;
-  color: #2F3640;
-  font-family: "Playfair Display", serif;
-}
-
 .content {
   /*Fill the document.*/
   min-height: 100%;
-  font-size: 4vw;
+  font-size: 5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,11 +21,14 @@ html, body {
   /*Explicity set width to fix flexbox word wrapping on IE.*/
   width: 100%;
 }
-.content h1 {
-  /*Explicity set width to fix flexbox word wrapping on IE.*/
+
+/*The <h1> inside of .content*/
+#text {
+  /*Explicity set width to fix flexbox word wrapping on IE. -5% to avoid wrapping document*/
   width: 95%;
   max-width: 95%;
   overflow-wrap: break-word;
+  display: none;
 }
 
 .and {
@@ -46,6 +38,106 @@ html, body {
 
 #firstWord, #secondWord {
   text-decoration: underline;
+}
+
+#spinning-bottle {
+  display: inline;
+  animation: spin 1s ease forwards infinite;
+}
+#spinning-bottle img {
+  width: 24px;
+  height: 24px;
+}
+
+@-moz-keyframes spin {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+#toast {
+  visibility: hidden;
+  /* Hidden by default. Visible when animating*/
+  min-width: 250px;
+  /* Set a default minimum width */
+  max-width: 250px;
+  /* Set a default maximum width*/
+  margin-left: -138px;
+  /* Divide value of min-width by 2 */
+  background-color: #fff;
+  /* Light background colour */
+  color: #2F3640;
+  /* Dark text colour */
+  text-align: center;
+  /* Centered text */
+  font-size: 14px;
+  border-radius: 2px;
+  /* Rounded borders */
+  padding: 16px;
+  /* Padding */
+  position: fixed;
+  /* Sit on top of the screen */
+  z-index: 1;
+  /* Add a z-index to be above other elements */
+  left: 50%;
+  /* Center the toast */
+  bottom: 30px;
+  /* 30px from the bottom */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  transform: translateY(150%);
+  /* Default resting position */
+  animation: slide-in 4s ease 0.5s 2 alternate;
+  /* Slide in slowly */
+}
+#toast .controls {
+  font-weight: bold;
+}
+
+@-moz-keyframes slide-in {
+  to {
+    -moz-transform: translateY(0);
+    visibility: visible;
+  }
+}
+@-webkit-keyframes slide-in {
+  to {
+    -webkit-transform: translateY(0);
+    visibility: visible;
+  }
+}
+@keyframes slide-in {
+  to {
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+html, body {
+  /*Fill the screen and remove default padding.*/
+  height: 100%;
+  margin: 0;
+  /*Hide Scrollbars*/
+  overflow: hidden;
+  background: #32ff7e;
+  color: #2F3640;
+  font-family: "Playfair Display", serif;
 }
 
 /*# sourceMappingURL=styles/main.css.map */
