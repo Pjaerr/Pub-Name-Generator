@@ -1,40 +1,59 @@
+
+//Import font
 @import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 
+//Variables
+$textColour: #2F3640;
+$defaultBackgroundColour: #32ff7e;
+$fontFamily: 'Playfair Display', serif;
+$fontSize: 4vw;
 
 html, body
 {
+    /*Fill the screen and remove default padding.*/
     height: 100%;
     margin: 0;
-    background: #32ff7e;
+
+    /*Hide Scrollbars*/
     overflow: hidden;
-    color: #2F3640;
-    font-family: 'Playfair Display', serif;
+
+    background: $defaultBackgroundColour;
+    color: $textColour;
+    font-family: $fontFamily;
+
 }
 
 
 .content
 {
+    /*Fill the document.*/
     min-height: 100%;
-    font-size: 4vw;
+
+    font-size: $fontSize;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-weight: bolder;
-    text-align: center;
-    margin-left: 10px;
-    margin-right: 10px;
 
+
+    font-weight: bold;
+    text-align: center;
+
+    /*Disable text selection. (Avoids highlighting words when clicking for a new generation)*/
     -webkit-user-select: none; /* Safari */        
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* IE10+/Edge */
     user-select: none; /* Standard */
 
-
+    /*Explicity set width to fix flexbox word wrapping on IE.*/
     width: 100%;
 
-    h1{
-        width: 100%;
+    h1
+    {
+        /*Explicity set width to fix flexbox word wrapping on IE.*/
+        width: 95%;
+        max-width: 95%;
         overflow-wrap: break-word;
     }
 }
@@ -45,16 +64,6 @@ html, body
     font-weight: lighter;
 }
 
-.button {
-    width: calc(100% * 1vw);
-    height: 50px;
-
-    
-}
-
-.button:hover {
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
 
 #firstWord, #secondWord
 {
