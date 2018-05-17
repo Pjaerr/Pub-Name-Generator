@@ -45,11 +45,11 @@ function grabNouns()
         {
             if (this.status === 200)
             {
-                let result = JSON.parse(this.response);
+                nouns = this.response.split('\n');
 
-                for (let i = 0; i < result.length; i++)
+                for (let i = 0; i < nouns.length; i++)
                 {
-                    nouns.push(result[i].word);
+                    nouns[i] = nouns[i][0].toUpperCase() + nouns[i].substr(1, nouns[i].length);
                 }
 
                 showLoadingIcon(false);
@@ -66,7 +66,7 @@ function grabNouns()
     }
 
     //Setup Wordnik API Ajax request appending timestamp to avoid IE caching the request.
-    wordnikAPIRequest.open("GET", "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=" + ((/\?/).test("http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=") ? "&" : "?") + (new Date()).getTime(), true);
+    wordnikAPIRequest.open("GET", "./nounlist.txt", true);
 
     showLoadingIcon(true);
 
