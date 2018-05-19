@@ -29,6 +29,28 @@ function showLoadingIcon(shouldShow)
     }
 }
 
+let apiIsNotWorking = false;
+
+function grabNounsFromFile(response)
+{
+    nouns = response.split('\n');
+
+    for (let i = 0; i < nouns.length; i++)
+    {
+        nouns[i] = nouns[i][0].toUpperCase() + nouns[i].substr(1, nouns[i].length);
+    }
+}
+
+function grabNounsFromAPI(response)
+{
+    let result = JSON.parse(response);
+
+    for (let i = 0; i < result.length; i++)
+    {
+        nouns.push(result[i].word);
+    }
+}
+
 /**Sends an ajax request to the wordnik api asking for 10 nouns of a limited length, we then store those 10 nouns
  * inside of the nouns[] array and, if this is first time this method has been called, we hide the spinning bottle
  * animation.
@@ -37,19 +59,21 @@ function grabNouns()
 {
     isSendingRequest = true;
 
-    let wordnikAPIRequest = new XMLHttpRequest();
+    let wordRequest = new XMLHttpRequest();
 
-    wordnikAPIRequest.onreadystatechange = function ()
+    wordRequest.onreadystatechange = function ()
     {
         if (this.readyState === XMLHttpRequest.DONE)
         {
             if (this.status === 200)
             {
-                let result = JSON.parse(this.response);
-
-                for (let i = 0; i < result.length; i++)
+                if (apiIsNotWorking)
                 {
-                    nouns.push(result[i].word);
+                    grabNounsFromFile(this.response);
+                }
+                else
+                {
+                    grabNounsFromAPI(this.response)
                 }
 
                 showLoadingIcon(false);
@@ -58,19 +82,31 @@ function grabNouns()
             }
             else
             {
-                console.error("An error occured with the request: " + this.status + " " + this.statusText);
-                showLoadingIcon(true);
-                alert("An error occured with the request: " + this.status + " " + this.statusText);
+                console.error("API Not working, reverting to nounlist.txt.");
+
+                apiIsNotWorking = true;
+
+                wordRequest.open("GET", "./nounlist.txt", true);
+                wordRequest.send();
             }
         }
     }
 
-    //Setup Wordnik API Ajax request appending timestamp to avoid IE caching the request.
-    wordnikAPIRequest.open("GET", "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=" + ((/\?/).test("http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=") ? "&" : "?") + (new Date()).getTime(), true);
+
+
+    if (apiIsNotWorking)
+    {
+        wordRequest.open("GET", "./nounlist.txt", true);
+    }
+    else
+    {
+        //Setup Wordnik API Ajax request appending timestamp to avoid IE caching the request.
+        wordRequest.open("GET", "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e" + ((/\?/).test("http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e") ? "&" : "?") + (new Date()).getTime(), true);
+    }
 
     showLoadingIcon(true);
 
-    wordnikAPIRequest.send();
+    wordRequest.send();
 }
 
 /**Sends the chosen words to the DOM and then removes them from the nouns[] array*/
