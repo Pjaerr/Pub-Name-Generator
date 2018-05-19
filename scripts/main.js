@@ -101,7 +101,7 @@ function grabNouns()
     else
     {
         //Setup Wordnik API Ajax request appending timestamp to avoid IE caching the request.
-        wordRequest.open("GET", "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e" + ((/\?/).test("http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e") ? "&" : "?") + (new Date()).getTime(), true);
+        wordRequest.open("GET", "https://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e" + ((/\?/).test("https://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=false&includePartOfSpeech=proper-noun&&minCorpusCount=10000&maxCorpusCount=-1&minDictionaryCount=3&maxDictionaryCount=-1&minLength=5&maxLength=15&limit=10&api_key=f4a8a3f23198b5b1bb90e044ebe09f5f56492ab74f0117d5e") ? "&" : "?") + (new Date()).getTime(), true);
     }
 
     showLoadingIcon(true);
