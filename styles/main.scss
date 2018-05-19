@@ -13,7 +13,6 @@ $fontSize: 5vw;
 @import 'loading';
 @import 'toast';
 
-
 html, body
 {
     /*Fill the screen and remove default padding.*/
@@ -26,6 +25,8 @@ html, body
     background: $defaultBackgroundColour;
     color: $textColour;
     font-family: $fontFamily;
+
+    cursor: pointer;
 }
 
 
