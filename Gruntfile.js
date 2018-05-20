@@ -23,6 +23,19 @@ module.exports = function (grunt)
                             dest: 'styles/main.min.css'
                         }
                 },
+            babel: {
+                options: {
+                    "sourceMap": true
+                },
+                dist: {
+                    files: [{
+                        "expand": true,
+                        "cwd": "scripts",
+                        "src": ["main.min.js"],
+                        "dest": "scripts",
+                    }]
+                }
+            },
 
             uglify: {
                 build: {
@@ -53,6 +66,15 @@ module.exports = function (grunt)
                                     livereload: true
                                 }
                         },
+                    babel:
+                        {
+                            files: 'scripts/main.min.js',
+                            tasks: ['babel'],
+                            options:
+                                {
+                                    livereload: true
+                                }
+                        },
                     all:
                         {
                             files: ['**/*.html'],
@@ -68,6 +90,7 @@ module.exports = function (grunt)
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify-es');
+    grunt.loadNpmTasks('grunt-babel');
 
     grunt.loadNpmTasks('grunt-contrib-watch');
 
