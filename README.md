@@ -1,4 +1,20 @@
 # Pub-Name-Generator
-Generates random pub names by grabbing a collection of random nouns from the wordnik API and then choose two of them slotted between The WORD1 and WORD2. Created using **HTML**, **CSS/SASS** and **JavaScript**
+Generates random pub names by grabbing a collection of random nouns or adjectives from a text file, choosing a random format and then updating the DOM with the combination when _spacebar_ is pressed or the screen is clicked/tapped.
 
-#### I have finished with this, but there are some improvements that could be made to give better and more varied names. Some of these are marked as issues, if somebody wants to have a go at implementing any of them, feel free to make a pull request!
+Created using **HTML**, **CSS** and **JavaScript**
+
+### Developing Locally
+
+1. Clone the repository
+2. Run `npm install`
+3. Run `npm start`
+4. Open the index.html file on a local server
+
+The JavaScript from the `main.js` is minified and then transpiled into code that will run on older browsers, this is what the grunt tasks are for. The CSS is just normal CSS and can be edited directly in the `main.css` file.
+
+### Pub Name Formats
+The _noun_ and _noun_ (The Swan and Goose)
+The _noun_ _bodypart_ (The Kings Arms, Head, Feet, Legs, Hands)
+The _adjective_ _noun_ (The Old Horse)
+The _noun_ (The Globe)
+

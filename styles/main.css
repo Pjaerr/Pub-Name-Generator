@@ -36,7 +36,9 @@
   font-weight: lighter;
 }
 
-#firstWord, #secondWord {
+.word {
+  margin-left: 5px;
+  margin-right: 5px;
   text-decoration: underline;
 }
 
@@ -84,7 +86,7 @@
   /* Divide value of min-width by 2 */
   background-color: #fff;
   /* Light background colour */
-  color: #2F3640;
+  color: #2f3640;
   /* Dark text colour */
   text-align: center;
   /* Centered text */
@@ -129,16 +131,15 @@
     visibility: visible;
   }
 }
-html, body {
+html,
+body {
   /*Fill the screen and remove default padding.*/
   height: 100%;
   margin: 0;
   /*Hide Scrollbars*/
   overflow: hidden;
   background: #fff200;
-  color: #2F3640;
+  color: #2f3640;
   font-family: "Playfair Display", serif;
   cursor: pointer;
 }
-
-/*# sourceMappingURL=styles/main.css.map */

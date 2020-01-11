@@ -1,6 +1,5 @@
-"use strict";
-
-const colours = [
+//Background Colours
+const backgroundColours = [
   "#00A8FF",
   "#9C88FF",
   "#FBC531",
@@ -26,127 +25,118 @@ const colours = [
   "#F8EFBA"
 ];
 
-let nouns = []; //The words grabbed from the wordnik api.
+//Words
+let nouns = [];
+let adjectives = [];
+let bodyParts = [];
 
-/**DOM Elements*/
-const firstWord = document.getElementById("firstWord"); //The <span> for the first word.
-const secondWord = document.getElementById("secondWord"); //The <span> for the second word.
-const loadingIcon = document.getElementById("spinning-bottle");
-const pubNameText = document.getElementById("text"); //The whole text containing first/second word elements.
+//DOM Elements
+let content = document.getElementById("text");
+let loadingIcon = document.getElementById("spinning-bottle");
 
-let isSendingRequest = true; //True if we are waiting for an ajax request to return successfully.
+//Switch values
+let isKeyDown = false;
+let wordsHaveLoaded = false;
 
-/**Disables or Enables the loading icon.*/
-function showLoadingIcon(shouldShow) {
-  if (shouldShow) {
-    loadingIcon.style.display = "inline";
-    pubNameText.style.display = "none";
-  } else {
-    loadingIcon.style.display = "none";
-    pubNameText.style.display = "inline";
+//Utility Functions
+const showLoadingIcon = shouldShow => {
+  loadingIcon.style.display = shouldShow ? "inline" : "none";
+  content.style.display = shouldShow ? "none" : "inline";
+};
+
+const splitWordsFromFile = wordsFromFile => {
+  let words = wordsFromFile.split("\n");
+
+  for (let i = 0; i < words.length; i++) {
+    words[i] = words[i][0].toUpperCase() + words[i].substr(1, words[i].length);
   }
-}
 
-let apiIsNotWorking = true;
+  return words;
+};
 
-function grabNounsFromFile(response) {
-  nouns = response.split("\n");
-
-  for (let i = 0; i < nouns.length; i++) {
-    nouns[i] = nouns[i][0].toUpperCase() + nouns[i].substr(1, nouns[i].length);
-  }
-}
-
-/**Sends an ajax request to the wordnik api asking for 10 nouns of a limited length, we then store those 10 nouns
- * inside of the nouns[] array and, if this is first time this method has been called, we hide the spinning bottle
- * animation.
- */
-function grabNouns() {
-  isSendingRequest = true;
-  let wordRequest = new XMLHttpRequest();
-
-  wordRequest.onreadystatechange = function() {
-    if (this.readyState === XMLHttpRequest.DONE) {
-      if (this.status === 200) {
-        grabNounsFromFile(this.response);
-
-        showLoadingIcon(false);
-
-        isSendingRequest = false;
-
-        wordRequest.open("GET", "./nounlist.txt", true);
-        wordRequest.send();
-      }
-    }
-  };
-
-  wordRequest.open("GET", "./nounlist.txt", true);
-
+//Main Functionality
+const getWords = () => {
   showLoadingIcon(true);
 
-  wordRequest.send();
-}
+  const nounsPromise = fetch("./words/nouns.txt").then(res => res.text());
+  const adjectivesPromise = fetch("./words/adjectives.txt").then(res =>
+    res.text()
+  );
+  const bodyPartsPromise = fetch("./words/bodyparts.txt").then(res =>
+    res.text()
+  );
 
-/**Sends the chosen words to the DOM and then removes them from the nouns[] array*/
-function sendWordsToDOM(wordOne, wordTwo) {
-  /*Send the words to the DOM.*/
-  firstWord.innerText = wordOne;
-  secondWord.innerText = wordTwo;
+  Promise.all([nounsPromise, adjectivesPromise, bodyPartsPromise]).then(
+    values => {
+      nouns = splitWordsFromFile(values[0]);
+      adjectives = splitWordsFromFile(values[1]);
+      bodyParts = splitWordsFromFile(values[2]);
 
-  /*Create new nouns array and remove the previous two words.*/
-  let temporaryNewNounArray = nouns;
-
-  temporaryNewNounArray.splice(temporaryNewNounArray.indexOf(wordOne), 1);
-  temporaryNewNounArray.splice(temporaryNewNounArray.indexOf(wordTwo), 1);
-
-  nouns = temporaryNewNounArray;
-}
-
-/**If we aren't waiting for a request to come back, pick 2 random words from the nouns[] array and
- * push them to the DOM and then remove them from the nouns array, also choose a background colour at
- * random.
- *
- * If nouns only has 2 words left in it, send an ajax request for 10 more words.
- */
-function generate() {
-  if (!isSendingRequest) {
-    if (nouns.length <= 2) {
-      grabNouns();
+      wordsHaveLoaded = true;
+      showLoadingIcon(false);
     }
+  );
+};
 
-    let colourIndex = Math.floor(Math.random() * colours.length);
-    let wordIndexOne = Math.floor(Math.random() * nouns.length);
-    let wordIndexTwo;
+getWords();
 
-    /*Ensure the same two words aren't chosen.*/
-    do {
-      wordIndexTwo = Math.floor(Math.random() * nouns.length);
-    } while (wordIndexTwo === wordIndexOne);
+/**
+ * Formats:
+ * The _noun_ and _noun_ (The Swan and Goose)
+ * The _noun_ _bodypart_ (The Kings Arms, Head, Feet, Legs, Hands)
+ * The _adjective_ _noun_ (The Old Horse)
+ * The _noun_ (The Globe)
+ */
+const formats = [
+  () => {
+    const firstNoun = nouns[Math.floor(Math.random() * nouns.length)];
+    const secondNoun = nouns[Math.floor(Math.random() * nouns.length)];
 
-    sendWordsToDOM(nouns[wordIndexOne], nouns[wordIndexTwo]);
+    return `The <span class="word">${firstNoun} </span> <span class="and">And</span> <span class="word"> ${secondNoun}</span>`;
+  },
+  () => {
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    const bodyPart = bodyParts[Math.floor(Math.random() * bodyParts.length)];
 
-    document.body.style.background = colours[colourIndex];
+    return `The <span class="word">${noun}</span> <span class="word">${bodyPart}</span>`;
+  },
+  () => {
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+    return `The <span class="word">${adjective} </span> <span class="word">${noun}</span>`;
+  },
+  () => {
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+    return `The <span class="word">${noun}</span>`;
   }
-}
+];
 
-let keyIsDown = false;
+const generate = () => {
+  if (wordsHaveLoaded) {
+    const randomNumber = Math.floor(Math.random() * formats.length);
 
-/**Setup Input Checking once the DOM is ready.*/
-document.addEventListener("DOMContentLoaded", function() {
-  grabNouns(); //Grab the initial collection of words from the wordnik api.
+    const format = formats[randomNumber]();
 
-  /*If SPACEBAR has been pressed and it isn't currently held down, generate a new word.*/
-  document.addEventListener("keydown", function(event) {
-    if (event.keyCode === 32 && !keyIsDown) {
-      keyIsDown = true;
+    content.innerHTML = format;
+
+    document.body.style.background =
+      backgroundColours[Math.floor(Math.random() * backgroundColours.length)];
+  }
+};
+
+//Event Listeners
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("keydown", event => {
+    if (event.keyCode === 32 && !isKeyDown) {
+      isKeyDown = true;
       generate();
     }
   });
 
-  document.addEventListener("keyup", function(event) {
-    if (event.keyCode === 32) {
-      keyIsDown = false;
-    }
+  document.addEventListener("keyup", event => {
+    if (event.keyCode === 32) isKeyDown = false;
   });
 
   document.addEventListener("click", generate);
